@@ -1,7 +1,6 @@
 project(
   'reaper',
   ['cpp'],
-  meson_version: '>=0.54.0',
   default_options: ['warning_level=2'],
 )
 

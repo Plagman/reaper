@@ -7,6 +7,10 @@
 #include <stdio.h>
 #include <errno.h>
 
+#if !defined( PR_SET_CHILD_SUBREAPER )
+#define PR_SET_CHILD_SUBREAPER 36
+#endif
+
 int main( int argc, char **argv )
 {
 	int sub_command_argc = 0;
@@ -27,7 +31,7 @@ int main( int argc, char **argv )
 	}
 
 	// (Don't Lose) The Children
-	if ( prctl( PR_SET_CHILD_SUBREAPER ) == -1 )
+	if ( prctl( PR_SET_CHILD_SUBREAPER, 1, 0, 0, 0 ) == -1 )
 	{
 		fprintf( stderr, "reaper: prctl() failed!\n" );
 		exit( 1 );
@@ -50,7 +54,7 @@ int main( int argc, char **argv )
 	pid_t wait_ret;
 	while( true )
 	{
-		wait_ret = wait( nullptr );
+		wait_ret = wait( NULL );
 
 		if ( wait_ret == -1 && errno == ECHILD )
 		{
