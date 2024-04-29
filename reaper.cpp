@@ -52,14 +52,28 @@ int main( int argc, char **argv )
 	}
 
 	pid_t wait_ret;
+	int child_status;
+	bool child_failed = false;
 	while( true )
 	{
-		wait_ret = wait( NULL );
+		wait_ret = wait( &child_status );
+
+		if ( child_status != 0 )
+		{
+			child_failed = true;
+		}
 
 		if ( wait_ret == -1 && errno == ECHILD )
 		{
 			// No more children.
 			break;
 		}
+	}
+
+	if ( child_failed )
+	{
+		exit ( 1 );
+	} else {
+		exit ( 0 );
 	}
 }
