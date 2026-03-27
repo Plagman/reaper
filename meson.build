@@ -7,7 +7,7 @@ project(
 thread_dep = dependency('threads')
 
 executable(
-    'reaper',
+    'reaper-playtron',
     'reaper.cpp',
     install: true,
 	dependencies : [
