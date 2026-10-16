@@ -33,7 +33,7 @@ int main( int argc, char **argv )
 	// (Don't Lose) The Children
 	if ( prctl( PR_SET_CHILD_SUBREAPER, 1, 0, 0, 0 ) == -1 )
 	{
-		fprintf( stderr, "reaper: prctl() failed!\n" );
+		fprintf( stderr, "reaper: prctl() failed: %s\n", strerror( errno ) );
 		exit( 1 );
 	}
 
@@ -41,7 +41,7 @@ int main( int argc, char **argv )
 
 	if ( pid == -1 )
 	{
-		fprintf( stderr, "reaper: fork() failed!\n" );
+		fprintf( stderr, "reaper: fork() failed: %s\n", strerror( errno ) );
 		exit( 1 );
 	}
 
