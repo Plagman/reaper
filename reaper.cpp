@@ -49,6 +49,10 @@ int main( int argc, char **argv )
 	if ( pid == 0 )
 	{
 		execvp( argv[ sub_command_argc ], &argv[ sub_command_argc ] );
+		// If we get here, then execvp() must have failed
+		fprintf( stderr, "reaper: execvp(%s) failed: %s\n", argv[ sub_command_argc ], strerror( errno ) );
+		// Avoid atexit handlers because we're in a child process now
+		_exit( 1 );
 	}
 
 	pid_t wait_ret;
